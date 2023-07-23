@@ -1,5 +1,14 @@
+import Header from './layout/Header'
+
 const App = () => {
-   return <div />
+   return <Header />
 }
 
 export default App
+
+// Tabs
+// TabItem
+// Apps
+// AppItem
+// SearchBar
+// Profile
