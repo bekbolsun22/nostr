@@ -18,10 +18,9 @@ const AccountsModal = ({ isOpen, onClose }) => {
       <AppModal isOpen={isOpen} onClose={onClose} title="Accounts">
          <List sx={{ pt: 0 }}>
             {emails.map((email) => (
-               <ListItem disableGutters>
+               <ListItem disableGutters key={email}>
                   <ListItemButton
-                     //  onClick={() => handleListItemClick(email)}
-                     key={email}
+                  //  onClick={() => handleListItemClick(email)}
                   >
                      <ListItemAvatar>
                         <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
