@@ -5,7 +5,7 @@ import { db } from './db'
 import useMountedEffect from './hooks/useMountedEffect'
 import { AUTH_LS_INFO_KEY, USER_ID } from './utils/constants/general'
 import { AuthContext } from './store/AuthContext'
-import { LocalStorage } from './utils/helpers/general'
+import { LocalStorage, addApp, addUser } from './utils/helpers/general'
 
 const DEFAULT_USER = {
    userId: 'npub1exv22uulqnmlluszc4yk92jhs2e5ajcs6mu3t00a6avzjcalj9csm7d828',
@@ -31,27 +31,6 @@ const DEFAULT_USER = {
    ],
 }
 
-const addApp = async (appData, userId) => {
-   try {
-      const app = {
-         ...appData,
-         userId,
-      }
-      await db.apps.add(app)
-   } catch (error) {
-      console.error('Error adding app:', error)
-   }
-}
-
-const addUser = async (userData) => {
-   try {
-      await db.users.add(userData)
-      LocalStorage.save(AUTH_LS_INFO_KEY, userData)
-   } catch (error) {
-      console.error('Error adding user:', error)
-   }
-}
-
 const App = () => {
    const { setCredentials } = useContext(AuthContext)
    useMountedEffect(() => {
@@ -68,6 +47,7 @@ const App = () => {
                apps.forEach(async (app) => {
                   await addApp(app, user.userId)
                })
+               LocalStorage.save(AUTH_LS_INFO_KEY, user)
             }
          } catch (error) {
             console.log(error)

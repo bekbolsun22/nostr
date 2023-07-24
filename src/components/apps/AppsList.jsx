@@ -24,7 +24,11 @@ const AppsList = () => {
          <Typography variant="h5" gutterBottom color="white">
             Apps
          </Typography>
+
          <AppsContainer>
+            {renderedApps.length === 0 && (
+               <Typography color="white">No Apps</Typography>
+            )}
             {renderedApps.map((app) => (
                <AppItem image={app.image} title={app.title} key={app.id} />
             ))}
