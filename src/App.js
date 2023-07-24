@@ -1,7 +1,13 @@
+import AppsList from './components/apps/AppsList'
 import Header from './layout/Header'
 
 const App = () => {
-   return <Header />
+   return (
+      <>
+         <Header />
+         <AppsList />
+      </>
+   )
 }
 
 export default App
