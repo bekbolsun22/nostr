@@ -22,6 +22,7 @@ const StyledBox = styled(Box)(() => ({
    gap: '0.5rem',
    color: 'white',
    padding: '0.5rem 0',
+   cursor: 'pointer',
 }))
 
 export default AppItem

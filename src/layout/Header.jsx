@@ -1,19 +1,30 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
    AppBar,
+   Avatar,
    Box,
+   Divider,
    IconButton,
    InputBase,
    Menu,
    MenuItem,
    Toolbar,
+   Typography,
    alpha,
    styled,
 } from '@mui/material'
 import { AccountCircle, Search as SearchIcon } from '@mui/icons-material'
 import AccountsModal from '../components/accounts-modal/AccountsModal'
+import { AuthContext } from '../store/AuthContext'
+
+const getFirstLetter = (nameStr) => {
+   return nameStr?.[0] || ''
+}
 
 const Header = () => {
+   const { user } = useContext(AuthContext)
+   const { email, username } = user || {}
+
    const [anchorEl, setAnchorEl] = React.useState(null)
 
    const [isAccountsModalOpen, setIsAccountsModalOpen] = useState(false)
@@ -50,7 +61,15 @@ const Header = () => {
          open={isMenuOpen}
          onClose={handleMenuClose}
       >
-         <MenuItem onClick={handleMenuClose}>My profile</MenuItem>
+         <ProfileContainer>
+            <Avatar>{getFirstLetter(username)}</Avatar>
+            <div className="credentials_block">
+               <Typography variant="h6">{username}</Typography>
+               <Typography>{email}</Typography>
+            </div>
+         </ProfileContainer>
+         <Divider />
+         <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
          <MenuItem onClick={handleChangeAccount}>Change account</MenuItem>
       </Menu>
    )
@@ -137,6 +156,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
             width: '20ch',
          },
       },
+   },
+}))
+
+const ProfileContainer = styled(Box)(() => ({
+   display: 'flex',
+   padding: '1rem',
+   gap: '1rem',
+   flexWrap: 'wrap',
+   '& .credentials_block': {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
    },
 }))
 

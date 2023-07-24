@@ -1,15 +1,33 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { Box, Typography, styled } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
+import { useLiveQuery } from 'dexie-react-hooks'
 import AppItem from './AppItem'
+import { db } from '../../db'
+import { USER_ID } from '../../utils/constants/general'
+import { AuthContext } from '../../store/AuthContext'
 
 const AppsList = () => {
+   const { user } = useContext(AuthContext)
+   const { userId } = user || {}
+
+   const apps = useLiveQuery(() => {
+      if (!userId) {
+         return []
+      }
+      return db.apps.where(USER_ID).equals(userId).toArray()
+   }, [userId])
+
+   const renderedApps = apps || []
    return (
       <Container>
          <Typography variant="h5" gutterBottom color="white">
             Apps
          </Typography>
          <AppsContainer>
-            <AppItem />
+            {renderedApps.map((app) => (
+               <AppItem image={app.image} title={app.title} key={app.id} />
+            ))}
          </AppsContainer>
       </Container>
    )
