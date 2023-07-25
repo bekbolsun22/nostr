@@ -5,17 +5,16 @@ import {
    Box,
    Divider,
    IconButton,
-   InputBase,
    Menu,
    MenuItem,
    Toolbar,
    Typography,
-   alpha,
    styled,
 } from '@mui/material'
-import { AccountCircle, Search as SearchIcon } from '@mui/icons-material'
+import { AccountCircle } from '@mui/icons-material'
 import AccountsModal from '../components/accounts-modal/AccountsModal'
 import { AuthContext } from '../store/AuthContext'
+import SearchBar from '../components/search-bar/SearchBar'
 
 const getFirstLetter = (nameStr) => {
    return nameStr?.[0] || ''
@@ -88,15 +87,7 @@ const Header = () => {
                >
                   <AccountCircle fontSize="large" />
                </IconButton>
-               <Search>
-                  <SearchIconWrapper>
-                     <SearchIcon />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                     placeholder="Search…"
-                     inputProps={{ 'aria-label': 'search' }}
-                  />
-               </Search>
+               <SearchBar />
             </StyledToolbar>
          </AppBar>
 
@@ -115,48 +106,6 @@ const StyledToolbar = styled(Toolbar)(() => ({
    alignItems: 'center',
    justifyContent: 'space-between',
    gap: '1rem',
-}))
-
-const Search = styled('div')(({ theme }) => ({
-   position: 'relative',
-   borderRadius: theme.shape.borderRadius,
-   backgroundColor: alpha(theme.palette.common.white, 0.15),
-   '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-   },
-   marginLeft: 0,
-   width: '100%',
-   [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-      minWidth: '30rem',
-   },
-}))
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-   padding: theme.spacing(0, 2),
-   height: '100%',
-   position: 'absolute',
-   pointerEvents: 'none',
-   display: 'flex',
-   alignItems: 'center',
-   justifyContent: 'center',
-}))
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-   color: 'inherit',
-   '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('sm')]: {
-         width: '12ch',
-         '&:focus': {
-            width: '20ch',
-         },
-      },
-   },
 }))
 
 const ProfileContainer = styled(Box)(() => ({

@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import ClearIcon from '@mui/icons-material/Clear'
 
-const TabItem = ({ image, source, onDelete = () => {} }) => {
+const TabItem = ({ image = '', source = '', onDelete = () => {} }) => {
    return (
       <StyledBox>
          <AvatarWrapper>
@@ -29,7 +29,11 @@ const TabItem = ({ image, source, onDelete = () => {} }) => {
             </StyledIconButton>
          </AvatarWrapper>
 
-         <Typography variant="body2">{source}</Typography>
+         <Tooltip title={source}>
+            <Typography className="text" variant="body2">
+               {source}
+            </Typography>
+         </Tooltip>
       </StyledBox>
    )
 }
@@ -42,6 +46,13 @@ const StyledBox = styled(Box)(() => ({
    color: 'white',
    padding: '0.5rem 0',
    cursor: 'pointer',
+   maxWidth: '8rem',
+   '& .text': {
+      width: '100%',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+   },
 }))
 
 const AvatarWrapper = styled('div')(() => ({
