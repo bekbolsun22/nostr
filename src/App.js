@@ -1,8 +1,7 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import AppsList from './components/apps/AppsList'
 import Header from './layout/Header'
 import { db } from './db'
-import useMountedEffect from './hooks/useMountedEffect'
 import { AUTH_LS_INFO_KEY, USER_ID } from './utils/constants/general'
 import { AuthContext } from './store/AuthContext'
 import { LocalStorage, addApp, addUser } from './utils/helpers/general'
@@ -33,10 +32,9 @@ const DEFAULT_USER = {
 }
 
 const App = () => {
-   const { setCredentials, user } = useContext(AuthContext)
-   const { userId } = user || {}
+   const { setCredentials } = useContext(AuthContext)
 
-   useMountedEffect(() => {
+   useEffect(() => {
       const setDefaultUserToDB = async () => {
          try {
             const dbUsers = await db.users
@@ -51,30 +49,17 @@ const App = () => {
                   await addApp(app, user.userId)
                })
                LocalStorage.save(AUTH_LS_INFO_KEY, user)
+               return setCredentials(user)
             }
-            if (dbUsers.length === 1) {
-               const [defaultUser] = dbUsers
-               LocalStorage.save(AUTH_LS_INFO_KEY, defaultUser)
-               setCredentials(defaultUser)
-            }
+
+            const authInfo = LocalStorage.get(AUTH_LS_INFO_KEY)
+            return setCredentials(authInfo)
          } catch (error) {
-            console.log(error)
+            return console.log(error)
          }
       }
       setDefaultUserToDB()
    }, [])
-
-   useMountedEffect(() => {
-      const autoLogin = async () => {
-         try {
-            const authInfo = LocalStorage.get(AUTH_LS_INFO_KEY)
-            setCredentials(authInfo)
-         } catch (error) {
-            console.log(error)
-         }
-      }
-      autoLogin()
-   }, [userId])
 
    return (
       <>
