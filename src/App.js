@@ -33,7 +33,9 @@ const DEFAULT_USER = {
 }
 
 const App = () => {
-   const { setCredentials } = useContext(AuthContext)
+   const { setCredentials, user } = useContext(AuthContext)
+   const { userId } = user || {}
+
    useMountedEffect(() => {
       const setDefaultUserToDB = async () => {
          try {
@@ -49,6 +51,11 @@ const App = () => {
                   await addApp(app, user.userId)
                })
                LocalStorage.save(AUTH_LS_INFO_KEY, user)
+            }
+            if (dbUsers.length === 1) {
+               const [defaultUser] = dbUsers
+               LocalStorage.save(AUTH_LS_INFO_KEY, defaultUser)
+               setCredentials(defaultUser)
             }
          } catch (error) {
             console.log(error)
@@ -67,7 +74,7 @@ const App = () => {
          }
       }
       autoLogin()
-   }, [])
+   }, [userId])
 
    return (
       <>
