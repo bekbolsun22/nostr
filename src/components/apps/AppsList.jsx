@@ -6,6 +6,7 @@ import AppItem from './AppItem'
 import { db } from '../../db'
 import { USER_ID } from '../../utils/constants/general'
 import { AuthContext } from '../../store/AuthContext'
+import { addTab } from '../../utils/helpers/general'
 
 const AppsList = () => {
    const { user } = useContext(AuthContext)
@@ -19,6 +20,17 @@ const AppsList = () => {
    }, [userId])
 
    const renderedApps = apps || []
+
+   const handleAppClick = (selectedApp) => {
+      addTab(
+         {
+            source: selectedApp.title,
+            image: selectedApp.image,
+         },
+         userId
+      )
+   }
+
    return (
       <Container>
          <Typography variant="h5" gutterBottom color="white">
@@ -30,7 +42,12 @@ const AppsList = () => {
                <Typography color="white">No Apps</Typography>
             )}
             {renderedApps.map((app) => (
-               <AppItem image={app.image} title={app.title} key={app.id} />
+               <AppItem
+                  image={app.image}
+                  title={app.title}
+                  key={app.id}
+                  onAppClick={() => handleAppClick(app)}
+               />
             ))}
          </AppsContainer>
       </Container>

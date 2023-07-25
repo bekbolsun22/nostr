@@ -30,7 +30,6 @@ export const addApp = async (appData, userId) => {
             userId,
          }
          await db.apps.add(app)
-         console.log('App added successfully:', app)
       } else {
          console.log('App already exists for this user.')
       }
@@ -51,5 +50,17 @@ export const addUser = async (userData) => {
       }
    } catch (error) {
       console.error('Error adding user:', error)
+   }
+}
+
+export const addTab = async (tab, userId) => {
+   try {
+      const newTab = {
+         ...tab,
+         userId,
+      }
+      await db.tabs.add(newTab)
+   } catch (error) {
+      console.error('Error adding tab:', error)
    }
 }

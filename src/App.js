@@ -6,6 +6,7 @@ import useMountedEffect from './hooks/useMountedEffect'
 import { AUTH_LS_INFO_KEY, USER_ID } from './utils/constants/general'
 import { AuthContext } from './store/AuthContext'
 import { LocalStorage, addApp, addUser } from './utils/helpers/general'
+import TabsList from './components/tabs/TabsList'
 
 const DEFAULT_USER = {
    userId: 'npub1exv22uulqnmlluszc4yk92jhs2e5ajcs6mu3t00a6avzjcalj9csm7d828',
@@ -71,6 +72,7 @@ const App = () => {
    return (
       <>
          <Header />
+         <TabsList />
          <AppsList />
       </>
    )
